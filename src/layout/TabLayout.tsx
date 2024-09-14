@@ -1,17 +1,19 @@
 import React, { useMemo } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Private } from '~/screens';
+import { Box, Center, HStack, Pressable, Text, VStack } from 'native-base';
 import AppIcon from '~/components/core/AppIcon';
-import { Box, Center, HStack, Pressable, Text } from 'native-base';
+import { Private } from '~/screens';
 import App from 'App';
+import { screenWidth } from '~/utils/Scaling';
 
 const Tab = createBottomTabNavigator();
-const CustomTabBar = (props:any) => {
+const CustomTabBar = (props: any) => {
+  console.log(props)
   const { state, descriptors, navigation } = props;
   return (
-    <Box bg="white" safeAreaBottom shadow={3}>
+    <Box bg="white" safeAreaBottom shadow={2}>
       <HStack bg="white" alignItems="center" safeAreaBottom shadow={6} justifyContent="space-around">
-        {state.routes.map((route, index) => {
+        {state.routes.map((route: any, index: number) => {
           const { options } = descriptors[route.key];
           const isFocused = state.index === index;
 
@@ -33,26 +35,37 @@ const CustomTabBar = (props:any) => {
           };
 
           return (
-            <Pressable
-              key={index}
-              opacity={isFocused ? 1 : 0.5}
-              py={2}
-              flex={1}
+            <Pressable key={index} w={screenWidth * 0.24} alignItems={'center'}
               onPress={onPress}
-              onLongPress={onLongPress}
-            >
-              <Center>
-                <AppIcon color={isFocused ? 'blue.500' : 'gray.800'} IoniconsName={route.name === 'Home' ? 'home-sharp' : 'settings'} size={24} />
-                {/* <Icon
-                  as={Ionicons}
-                  name={route.name === 'Home' ? 'home' : 'settings'}
-                  size="lg"
-                  color={isFocused ? 'blue.500' : 'gray.400'}
-                /> */}
-                <Text color={isFocused ? 'blue.500' : 'gray.400'} fontWeight={'semibold'} fontSize={'sm'}>
+              onLongPress={onLongPress}>
+              {
+                isFocused && <Box w={'100%'} style={{ height: 4 }} bg={'blue.900'} borderBottomRadius={'xl'} position={'absolute'} top={0} />
+              }
+              <VStack my={1} mt={4} alignItems={'center'} space={0.5}>
+                <Box bg={isFocused ? 'indigo.100' : 'white'} rounded={'2xl'} alignItems={'center'} justifyContent={'center'} px={2} py={0.5}>
+                  {
+                    route.name === 'Home' ? (
+                      isFocused ? (
+                        <AppIcon color={isFocused ? '#1e3a8a' : '#6b7280'} IoniconsName={'home-sharp'}  size={24} />
+                      ) : (
+                          <AppIcon color={isFocused ? '#1e3a8a' : '#6b7280'} OcticonsName={'home'}  size={24} />
+                      )
+                      
+
+                    ) : (
+                        isFocused ? (
+                          <AppIcon color={isFocused ? '#1e3a8a' : '#6b7280'} FontAwesome5Name={'user-tie'} size={24} />
+                        ):(
+                  <AppIcon color={isFocused ? '#1e3a8a' : '#6b7280'} FontAwesome5Name={'user'} size={24} />)
+                        )
+
+                  }
+
+                </Box>
+                <Text mt={-0.5} color={isFocused ? 'blue.900' : '#6b7280'} fontWeight={isFocused ? 'bold' : 'semibold'} fontSize={'sm'}>
                   {route.name}
                 </Text>
-              </Center>
+              </VStack>
             </Pressable>
           );
         })}
@@ -67,7 +80,7 @@ const TabLayout = () => {
       label: 'Home',
       activeIcon: { IoniconsName: 'home-sharp' },
       icon: { OcticonsName: 'home' },
-      component:Private.HomeScreen
+      component: Private.HomeScreen
     },
     {
       route: 'Profile',
@@ -75,7 +88,7 @@ const TabLayout = () => {
       activeIcon: { MaterialIconsName: 'dashboard' },
       icon: { MaterialIconsName: 'dashboard' },
       component: Private.Profile
-      
+
     }
   ], [])
   return (

@@ -1,31 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
+  FormControl,
+  useDisclose,
   Box,
   Image,
+  Input,
   Modal,
   Pressable,
   Row,
   ScrollView,
+  Select,
   Text,
   VStack,
 } from 'native-base';
+import BottomSheet from '~/components/core/BottomSheet';
+import DatePicker from 'react-native-date-picker';
 import AppIcon from '~/components/core/AppIcon';
+import { Formik } from 'formik';
 import {IMAGES} from '~/assets';
+import * as Yup from 'yup';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '~/store';
+import { saveFormData } from '~/store/slices/formSlice';
+import { launchImageLibrary } from 'react-native-image-picker';
+import { updateFormData, updateProfileImage } from '~/store/slices/userSlice';
 
+const FormSchema = Yup.object().shape({
+  firstName: Yup.string().required('First Name is required'),
+  lastName: Yup.string().required('Last Name is required'),
+  gender: Yup.string().required('Gender is required'),
+  dateOfBirth: Yup.date().required('Date of Birth is required'),
+  email: Yup.string().email('Invalid email'), // Optional email
+});
 const Profile = () => {
+  const dispatch = useDispatch();
+
+  // Mapping the personal info fields
+  const { name, phone, profileImage } = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => (console.log(state),state.user));
+
+
+  // Mapping the personal info fields
   const PersonalInfo = [
-    {key: 'Name', value: 'Bishnupada Maity'},
-    {key: 'Date of Birth', value: '09-05-2001'},
-    {key: 'Gender', value: 'Male'},
-    {key: 'Email', value: 'bishnupdm.1@gmail.com'},
-    {key: 'Phone', value: '8847866050'},
+    { key: 'First Name', value: user.firstName },
+    { key: 'Last Name', value: user.lastName },
+    { key: 'Gender', value: user.gender },
+    { key: 'Date of Birth', value: new Date(user.dateOfBirth).toDateString() },
+    { key: 'Email', value: user.email },
   ];
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclose();
+  const [isDatePickerOpen, setIsDatePickerOpen] = useState(false); 
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const handleLogout = () => {
     setModalVisible(false);
   };
+  const handleImagePick = () => {
+    launchImageLibrary({ mediaType: 'photo' }, (response) => {
+      if (response.assets && response.assets.length > 0) {
+        const selectedImage = response.assets[0].uri;
+        if (selectedImage) {
+          dispatch(updateProfileImage(selectedImage)); // Store image URI in Redux
+        } else {
+          console.error('No image selected');
+        } // Store image URI in Redux
+      }
+    });
+  };
   return (
+    <>
     <Box flex={1} bg={'violet.100'}>
       <Box
         h={'16'}
@@ -50,6 +94,7 @@ const Profile = () => {
         showsVerticalScrollIndicator={false}
         bg={'violet.50'}
         flex={1}>
+        {/* User  */}
         <Row
           bg={'violet.100'}
           px={8}
@@ -58,22 +103,22 @@ const Profile = () => {
           justifyContent={'space-between'}>
           <VStack w={'65%'} alignItems={'flex-start'} mt={5}>
             <Text fontWeight={'semibold'} fontSize={'xl'} color={'gray.700'}>
-              Bishnupada Maity
+              {user.name ? user.name : 'Ambula User0050'}
             </Text>
             <Text fontWeight={'normal'} fontSize={'sm'} color={'blue.500'}>
-              {'+91 8847866050'}
+                {user.phone ? user.phone : '000 111 2222'}
             </Text>
           </VStack>
           <Box borderWidth={1} p={1} rounded={'full'} borderColor={'gray.300'}>
             <Image
-              source={{
-                uri: 'https://cdn-icons-png.flaticon.com/256/149/149071.png',
-              }}
+                source={user?.profileImage ? {uri:user.profileImage} : {
+                  uri: 'https://cdn-icons-png.flaticon.com/256/149/149071.png',
+                }}
               style={{width: 100, height: 100}}
               alt="user"
               rounded={'full'}
             />
-            <Pressable position={'absolute'} bottom={3} right={-10}>
+              <Pressable position={'absolute'} bottom={3} right={-10} onPress={handleImagePick}>
               <AppIcon
                 MaterialIconsName="mode-edit-outline"
                 size={24}
@@ -109,7 +154,9 @@ const Profile = () => {
               _pressed={{opacity: 0.5}}
               position={'absolute'}
               bottom={4}
-              right={4}>
+              right={4}
+              onPress={onOpen}
+            >
               {/* <AppIcon AntDesignName='arrowleft' size={20} color={'#1e3a8a'} /> */}
               <AppIcon
                 MaterialIconsName="mode-edit-outline"
@@ -331,6 +378,8 @@ const Profile = () => {
           <Text fontWeight={'bold'}>App Version 1.0.0</Text>
         </VStack>
       </ScrollView>
+
+      {/* Log out Modal  */}
       <Modal
         isOpen={modalVisible}
         onClose={() => setModalVisible(false)}
@@ -387,7 +436,163 @@ const Profile = () => {
           {/* </Modal.Body> */}
         </Modal.Content>
       </Modal>
-    </Box>
+      
+      </Box>
+      <BottomSheet visible={isOpen} onDismiss={onClose}>
+        <Formik
+          initialValues={{
+            firstName: user.firstName || '',
+            lastName: user.lastName || '',
+            gender: user.gender || '',
+            dateOfBirth: user.dateOfBirth || '',
+            email: user.email || '',
+          }}
+          validationSchema={FormSchema}
+          onSubmit={(values) => {
+            const formData = { ...values, dateOfBirth: selectedDate.toISOString() };
+            dispatch(updateFormData(formData)); // Dispatch form data to Redux
+            console.log(formData);
+            console.log({ ...values, dateOfBirth: selectedDate.toISOString() });
+            onClose();
+          }}>
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+            setFieldValue,
+          }) => (
+            <VStack bg={'indigo.50'} p={5} space={3}>
+              <FormControl isRequired isInvalid={!!(errors.firstName && touched.firstName)}>
+                <FormControl.Label>First Name</FormControl.Label>
+                <Input
+                  onChangeText={handleChange('firstName')}
+                  onBlur={handleBlur('firstName')}
+                  value={values.firstName}
+                  borderColor={'blue.200'}
+                  mt={1}
+                  borderWidth={1.5}
+                  borderRadius={'xl'}
+                  backgroundColor={'white'}
+                  placeholder="Enter first name"
+                />
+                {errors.firstName && touched.firstName && (
+                  <FormControl.ErrorMessage>
+                    {errors.firstName}
+                  </FormControl.ErrorMessage>
+                )}
+              </FormControl>
+
+              <FormControl isRequired isInvalid={!!(errors.lastName && touched.lastName)}>
+                <FormControl.Label>Last Name</FormControl.Label>
+                <Input
+                  onChangeText={handleChange('lastName')}
+                  onBlur={handleBlur('lastName')}
+                  value={values.lastName}
+                  borderColor={'blue.200'}
+                  mt={1}
+                  borderWidth={1.5}
+                  borderRadius={'xl'}
+                  backgroundColor={'white'}
+                  placeholder="Enter last name"
+                />
+                {errors.lastName && touched.lastName && (
+                  <FormControl.ErrorMessage>
+                    {errors.lastName}
+                  </FormControl.ErrorMessage>
+                )}
+              </FormControl>
+
+              <FormControl isRequired isInvalid={!!(errors.gender && touched.gender)}>
+                <FormControl.Label>Gender</FormControl.Label>
+                <Select
+                  placeholder="Select gender"
+                  selectedValue={values.gender}
+                  borderColor={'blue.200'}
+                  mt={1}
+                  borderWidth={1.5}
+                  borderRadius={'xl'}
+                  backgroundColor={'white'}
+                  onValueChange={handleChange('gender')}>
+                  <Select.Item label="Male" value="male" />
+                  <Select.Item label="Female" value="female" />
+                  <Select.Item label="Other" value="other" />
+                </Select>
+                {errors.gender && touched.gender && (
+                  <FormControl.ErrorMessage>{errors.gender}</FormControl.ErrorMessage>
+                )}
+              </FormControl>
+
+              {/* Date Picker Field */}
+              <FormControl isRequired isInvalid={!!(errors.dateOfBirth && touched.dateOfBirth)}>
+                <FormControl.Label>Date of Birth</FormControl.Label>
+                <Pressable
+                  borderWidth={1.5}
+                  borderColor={'blue.200'}
+                  mt={1}
+                  p={3}
+                  rounded={'xl'}
+                  backgroundColor={'white'}
+                  onPress={() => setIsDatePickerOpen(true)}>
+                  <Text>{selectedDate ? selectedDate.toDateString() : 'Select Date of Birth'}</Text>
+                </Pressable>
+
+                {errors.dateOfBirth && touched.dateOfBirth && (
+                  <FormControl.ErrorMessage>{errors.dateOfBirth}</FormControl.ErrorMessage>
+                )}
+
+                <DatePicker
+                  modal
+                  open={isDatePickerOpen}
+                  date={selectedDate}
+                  mode="date"
+                  maximumDate={new Date()} // Prevent future dates
+                  onConfirm={(date) => {
+                    setIsDatePickerOpen(false);
+                    setSelectedDate(date);
+                    setFieldValue('dateOfBirth', date.toISOString()); // Set the selected date to formik
+                  }}
+                  onCancel={() => {
+                    setIsDatePickerOpen(false);
+                  }}
+                />
+              </FormControl>
+
+              <FormControl isInvalid={!!(errors.email && touched.email)}>
+                <FormControl.Label>Email (Optional)</FormControl.Label>
+                <Input
+                  placeholder="Enter email"
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  borderColor={'blue.200'}
+                  mt={1}
+                  borderWidth={1.5}
+                  borderRadius={'xl'}
+                  backgroundColor={'white'}
+                  value={values.email}
+                />
+                {errors.email && touched.email && (
+                  <FormControl.ErrorMessage>{errors.email}</FormControl.ErrorMessage>
+                )}
+              </FormControl>
+
+              <Row alignItems={'center'} justifyContent={'space-around'} my={4}>
+                <Pressable w={'45%'} bg={'blue.400'} rounded={'full'} py={3} alignItems={'center'} borderWidth={1.5} borderColor={'blue.400'} _pressed={{ opacity: 0.5 }} onPress={handleSubmit as any}>
+                  <Text fontSize={'md'} color={'white'} fontWeight={'bold'}>Save</Text>
+                </Pressable>
+                
+                <Pressable w={'45%'} bg={'white'} rounded={'full'} py={3} alignItems={'center'} borderWidth={1.5} borderColor={'blue.400'} _pressed={{ opacity: 0.5 }} onPress={onClose}>
+                  <Text fontSize={'md'} color={'blue.400'} fontWeight={'bold'}>Cancel</Text>
+                </Pressable>
+                
+              </Row>
+            </VStack>
+          )}
+        </Formik>
+      </BottomSheet>
+    </>
   );
 };
 

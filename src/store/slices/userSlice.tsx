@@ -18,7 +18,7 @@ const initialState: UserState = {
     dateOfBirth: '',
     email: '',
     phone: '',
-    name: '',
+    name: 'Ambula User0050',
     profileImage: null, 
 };
 

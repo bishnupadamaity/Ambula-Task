@@ -37,18 +37,20 @@ const Profile = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclose();
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
-  
+
 
   const user = useSelector((state: RootState) => (console.log(state), state.user));
 
   // Mapping the personal info fields
   const PersonalInfo = [
-    { key: 'First Name', value: user.firstName },
-    { key: 'Last Name', value: user.lastName },
+    { key: 'Name', value: user.firstName },
+    // { key: 'Last Name', value: user.lastName },
+    { key: 'Date of Birth', value: user.dateOfBirth ? new Date(user.dateOfBirth).toDateString() : "N/A" },
     { key: 'Gender', value: user.gender },
-    { key: 'Date of Birth', value: new Date(user.dateOfBirth).toDateString() },
     { key: 'Email', value: user.email },
+    { key: 'Phone', value: user.phone },
   ];
+  console.log(new Date(user.dateOfBirth).toDateString(), user.dateOfBirth, "--------------->")
   const [selectedDate, setSelectedDate] = useState<Date>(
     user.dateOfBirth ? new Date(user.dateOfBirth) : new Date()
   );
@@ -445,7 +447,7 @@ const Profile = () => {
             lastName: user.lastName || '',
             gender: user.gender || '',
             dateOfBirth: user.dateOfBirth || '',
-            email:user.email || '',
+            email: user.email || '',
           }}
           validationSchema={FormSchema}
           onSubmit={(values) => {
@@ -538,7 +540,7 @@ const Profile = () => {
                   onPress={() => setIsDatePickerOpen(true)}>
                   <Text>
                     {selectedDate
-                      ? format(selectedDate, 'dd-mm-yyyy')
+                      ? format(selectedDate, 'dd-MM-yyyy')
                       : 'N/A'}
                   </Text>
                 </Pressable>

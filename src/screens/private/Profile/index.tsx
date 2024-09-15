@@ -22,9 +22,9 @@ const Profile = () => {
   ];
   const [modalVisible, setModalVisible] = React.useState(true);
 
-  const handleLogout = ()=>{
+  const handleLogout = () => {
     setModalVisible(false);
-  }
+  };
   return (
     <Box flex={1} bg={'violet.100'}>
       <Box
@@ -67,7 +67,7 @@ const Profile = () => {
           <Box borderWidth={1} p={1} rounded={'full'} borderColor={'gray.300'}>
             <Image
               source={{
-                uri: 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?w=740&t=st=1726381313~exp=1726381913~hmac=a348d2e3e60e0b589dbb5189544786176578f5681d3b037e30afffd7840a0665',
+                uri: 'https://cdn-icons-png.flaticon.com/256/149/149071.png',
               }}
               style={{width: 100, height: 100}}
               alt="user"
@@ -168,19 +168,24 @@ const Profile = () => {
         </Pressable>
         {/* More  */}
         <VStack px={5} py={4}>
-          <Text fontSize={'sm'} color={'gray.500'}>MORE</Text>
+          <Text fontSize={'sm'} color={'gray.500'}>
+            MORE
+          </Text>
           <Pressable
             flexDir={'row'}
-            _pressed={{ opacity: 0.5 }}
+            _pressed={{opacity: 0.5}}
             justifyContent={'space-between'}
             alignItems={'center'}
             bg={'white'}
             rounded={'2xl'}
             mt={2}
-            p={5}
-          >
+            p={5}>
             <Row alignItems={'center'} space={2}>
-              <AppIcon IoniconsName="help-circle-outline" size={24} color={'#4b5563'} />
+              <AppIcon
+                IoniconsName="help-circle-outline"
+                size={24}
+                color={'#4b5563'}
+              />
               <Text fontWeight={'semibold'} color={'gray.800'} fontSize={'md'}>
                 Help & Support
               </Text>
@@ -193,30 +198,102 @@ const Profile = () => {
           </Pressable>
         </VStack>
         {/* Social Media  */}
-        <VStack px={5} py={4}>
-          <Text fontSize={'sm'} color={'gray.500'}>MORE</Text>
-          <Pressable
-            flexDir={'row'}
-            _pressed={{ opacity: 0.5 }}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            bg={'white'}
-            rounded={'2xl'}
-            mt={2}
-            p={5}
-          >
-            <Row alignItems={'center'} space={2}>
-              <AppIcon IoniconsName="help-circle-outline" size={24} color={'#4b5563'} />
-              <Text fontWeight={'semibold'} color={'gray.800'} fontSize={'md'}>
-                Help & Support
-              </Text>
-            </Row>
-            <AppIcon
-              EntypoName="chevron-small-right"
-              size={22}
-              color={'#6b7280'}
-            />
-          </Pressable>
+        <VStack px={5}>
+          <Text fontSize={'sm'} color={'gray.500'}>
+            SOCIAL MEDIA
+          </Text>
+          <VStack bg={'white'} rounded={'2xl'} py={3} mt={3}>
+            {[
+              {
+                label: 'Instagram',
+                img: 'https://cdn-icons-png.flaticon.com/256/2111/2111463.png',
+              },
+              {
+                label: 'LinkedIn',
+                img: 'https://cdn-icons-png.flaticon.com/256/3536/3536505.png',
+              },
+              {
+                label: 'Twitter (X)',
+                img: 'https://cdn-icons-png.flaticon.com/256/5968/5968830.png',
+              },
+            ].map((item, i) => (
+              <Pressable
+                key={i}
+                flexDir={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                py={2}
+                px={5}>
+                <Row alignItems={'center'} space={2.5}>
+                  {/* <AppIcon IoniconsName="help-circle-outline" size={24} color={'#4b5563'} /> */}
+                  <Image
+                    source={{uri: item.img}}
+                    style={{width: 20, height: 20}}
+                    alt={item.label}
+                  />
+                  <Text
+                    fontWeight={'medium'}
+                    color={'gray.700'}
+                    fontSize={'md'}>
+                    {item.label}
+                  </Text>
+                </Row>
+                <AppIcon
+                  EntypoName="chevron-small-right"
+                  size={22}
+                  color={'#6b7280'}
+                />
+              </Pressable>
+            ))}
+          </VStack>
+        </VStack>
+        {/* Legal  */}
+        <VStack px={5} mt={3}>
+          <Text fontSize={'sm'} color={'gray.500'}>
+            SOCIAL MEDIA
+          </Text>
+          <VStack bg={'white'} rounded={'2xl'} py={3} mt={3}>
+            {[
+              {
+                label: 'Medical Sources',
+                icon: <AppIcon MaterialCommunityIconsName='stethoscope' size={20} color={'#374151'}/>,
+              },
+              {
+                label: 'Terms & Conditions',
+                icon: <AppIcon MaterialCommunityIconsName='file-document-multiple' size={20} color={'#374151'} />,
+              },
+              {
+                label: 'Privacy Policy',
+                icon: <AppIcon MaterialCommunityIconsName='security' size={20} color={'#374151'} />,
+              },
+            ].map((item, i) => (
+              <Pressable
+                key={i}
+                flexDir={'row'}
+                justifyContent={'space-between'}
+                alignItems={'center'}
+                py={2}
+                px={5}>
+                <Row alignItems={'center'} space={2.5}>
+                  {
+                    item.icon
+                  }
+                  
+                  <Text
+                    fontWeight={'medium'}
+                    color={'gray.700'}
+                    fontSize={'md'}>
+                    {item.label}
+                  </Text>
+                </Row>
+                <AppIcon
+                  EntypoName="chevron-small-right"
+                  size={22}
+                  color={'#6b7280'}
+                />
+              </Pressable>
+            ))}
+          </VStack>
         </VStack>
 
         {/* Logout  */}
@@ -229,8 +306,7 @@ const Profile = () => {
           rounded={'2xl'}
           m={5}
           p={5}
-          onPress={()=>setModalVisible(true)}
-        >
+          onPress={() => setModalVisible(true)}>
           <Row alignItems={'center'} space={3}>
             <AppIcon MaterialIconsName="logout" size={22} color={'#6b7280'} />
             <Text fontWeight={'semibold'} color={'gray.700'} fontSize={'md'}>
@@ -255,29 +331,61 @@ const Profile = () => {
           <Text fontWeight={'bold'}>App Version 1.0.0</Text>
         </VStack>
       </ScrollView>
-      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)} size={'lg'}>
-          <Modal.Content bg={'none'} shadow={0}>
-        {/* <Modal.Body rounded={'full'}> */}
-            <Box bg={'white'} rounded={'3xl'} p={4}>
-              <VStack space={1}>
-                <Row alignItems={'center'} space={2}>
-                  <AppIcon AntDesignName="exclamationcircle" size={20} color={'red'} />
-                  <Text fontSize={'lg'} fontWeight={'bold'} color={'red.600'}>Alert</Text>
-                </Row>
-                <Text fontSize={'sm'} color={'gray.500'}>Are your sure you want to Logout Ambala ?</Text>
-              </VStack>
-              <Row justifyContent={'space-around'} alignItems={'center'} mt={6}>
-                <Pressable bg={'white'} _pressed={{opacity: 0.5}} borderWidth={1.5} rounded={'full'} borderColor={'red.600'} w={'45%'} py={3} alignItems={'center'} onPress={handleLogout}>
-                  <Text fontSize={'md'} color={'red.600'}>Yes</Text>
-                </Pressable>
-                <Pressable bg={'red.600'} _pressed={{opacity: 0.5}} borderWidth={1.5} rounded={'full'} borderColor={'red.600'} w={'45%'} py={3} alignItems={'center'} onPress={()=>setModalVisible(false)}>
-                  <Text fontSize={'md'} color={'white'}>No</Text>
-                </Pressable>
-                
+      <Modal
+        isOpen={modalVisible}
+        onClose={() => setModalVisible(false)}
+        size={'lg'}>
+        <Modal.Content bg={'none'} shadow={0}>
+          {/* <Modal.Body rounded={'full'}> */}
+          <Box bg={'white'} rounded={'3xl'} p={4}>
+            <VStack space={1}>
+              <Row alignItems={'center'} space={2}>
+                <AppIcon
+                  AntDesignName="exclamationcircle"
+                  size={20}
+                  color={'red'}
+                />
+                <Text fontSize={'lg'} fontWeight={'bold'} color={'red.600'}>
+                  Alert
+                </Text>
               </Row>
-            </Box>
-        {/* </Modal.Body> */}
-          </Modal.Content>
+              <Text fontSize={'sm'} color={'gray.500'}>
+                Are your sure you want to Logout Ambala ?
+              </Text>
+            </VStack>
+            <Row justifyContent={'space-around'} alignItems={'center'} mt={6}>
+              <Pressable
+                bg={'white'}
+                _pressed={{opacity: 0.5}}
+                borderWidth={1.5}
+                rounded={'full'}
+                borderColor={'red.600'}
+                w={'45%'}
+                py={3}
+                alignItems={'center'}
+                onPress={handleLogout}>
+                <Text fontSize={'md'} color={'red.600'}>
+                  Yes
+                </Text>
+              </Pressable>
+              <Pressable
+                bg={'red.600'}
+                _pressed={{opacity: 0.5}}
+                borderWidth={1.5}
+                rounded={'full'}
+                borderColor={'red.600'}
+                w={'45%'}
+                py={3}
+                alignItems={'center'}
+                onPress={() => setModalVisible(false)}>
+                <Text fontSize={'md'} color={'white'}>
+                  No
+                </Text>
+              </Pressable>
+            </Row>
+          </Box>
+          {/* </Modal.Body> */}
+        </Modal.Content>
       </Modal>
     </Box>
   );

@@ -43,7 +43,7 @@ const Home = () => {
     secondLabel: 'Test',
     icon: (
       <AppIcon
-        FontAwesomeName="credit-card-alt"
+        MaterialCommunityIconsName="test-tube"
         size={20}
         color={'#60a5fa'}
       />
@@ -54,7 +54,7 @@ const Home = () => {
     firstLabel: 'Health',
     secondLabel: 'Insurance',
     icon: (
-      <AppIcon IoniconsName="document-text" size={22} color={'#60a5fa'} />
+      <AppIcon MaterialCommunityIconsName="file-document-multiple" size={22} color={'#60a5fa'} />
     ),
     offer: null,
   },
@@ -63,7 +63,7 @@ const Home = () => {
     secondLabel: 'Medicine',
     icon: (
       <AppIcon
-        MaterialCommunityIconsName="qrcode-scan"
+        FontAwesome5Name="tablets"
         size={20}
         color={'#60a5fa'}
       />

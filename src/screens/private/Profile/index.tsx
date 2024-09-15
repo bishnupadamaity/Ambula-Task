@@ -40,18 +40,16 @@ const Profile = () => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false);
 
 
-  const user = useSelector((state: RootState) => (console.log(state), state.user));
+  const user = useSelector((state: RootState) => ( state.user));
 
-  // Mapping the personal info fields
+
   const PersonalInfo = [
     { key: 'Name', value: user.firstName },
-    // { key: 'Last Name', value: user.lastName },
     { key: 'Date of Birth', value: user.dateOfBirth ? new Date(user.dateOfBirth).toDateString() : "N/A" },
     { key: 'Gender', value: user.gender },
     { key: 'Email', value: user.email },
     { key: 'Phone', value: user.phone },
   ];
-  console.log(new Date(user.dateOfBirth).toDateString(), user.dateOfBirth, "--------------->")
   const [selectedDate, setSelectedDate] = useState<Date>(
     user.dateOfBirth ? new Date(user.dateOfBirth) : new Date()
   );
@@ -462,8 +460,6 @@ const Profile = () => {
           onSubmit={(values) => {
             const formData = { ...values, dateOfBirth: selectedDate ? selectedDate.toISOString() : '' };
             dispatch(updateFormData(formData)); // Dispatch form data to Redux
-            console.log(formData);
-            console.log({ ...values, dateOfBirth: selectedDate?.toISOString() });
             onClose();
           }}>
           {({

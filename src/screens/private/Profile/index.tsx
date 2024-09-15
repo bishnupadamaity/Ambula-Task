@@ -24,6 +24,7 @@ import { format } from 'date-fns';
 import { Formik } from 'formik';
 import { IMAGES } from '~/assets';
 import * as Yup from 'yup';
+import { resetAndNavigate } from '~/utils/NavigationUtils';
 
 const FormSchema = Yup.object().shape({
   firstName: Yup.string().required('First Name is required'),
@@ -63,6 +64,7 @@ const Profile = () => {
     }));
     dispatch(updateProfileImage(''));
     setModalVisible(false);
+    resetAndNavigate('OtpScreen');
     
   };
   const handleImagePick = () => {
@@ -115,7 +117,7 @@ const Profile = () => {
                 {user.name ? user.name : 'Ambula User0050'}
               </Text>
               <Text fontWeight={'normal'} fontSize={'sm'} color={'blue.500'}>
-                {user.phone ? user.phone : '+91 000 111 2222'}
+                +91 {user.phone ? user.phone : '000 111 2222'}
               </Text>
             </VStack>
             <Box borderWidth={1} p={1} rounded={'full'} borderColor={'gray.300'}>

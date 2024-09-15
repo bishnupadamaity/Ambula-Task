@@ -13,7 +13,7 @@ import {
   Row,
   Box,
 } from 'native-base';
-import { updateFormData, updateProfileImage } from '~/store/slices/userSlice';
+import { updateFormData, updateProfileImage, updateUser } from '~/store/slices/userSlice';
 import { launchImageLibrary } from 'react-native-image-picker';
 import BottomSheet from '~/components/core/BottomSheet';
 import { useDispatch, useSelector } from 'react-redux';
@@ -56,7 +56,14 @@ const Profile = () => {
   );
 
   const handleLogout = () => {
+    dispatch(updateFormData({ firstName: '', lastName: '', gender: '', dateOfBirth: '', email: '' }));
+    dispatch(updateUser({
+      phone: '',
+      name: ''
+    }));
+    dispatch(updateProfileImage(''));
     setModalVisible(false);
+    
   };
   const handleImagePick = () => {
     launchImageLibrary({ mediaType: 'photo' }, (response) => {

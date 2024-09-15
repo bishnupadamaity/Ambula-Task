@@ -182,6 +182,18 @@ const Home = () => {
         <Box bg={'violet.50'} py={2} px={5}>
           <AdCarousal adData={CarouselData} />
         </Box>
+
+        {/* Quote Line  */}
+        <VStack bg={'#fbfaff'} alignItems={'center'} py={8} space={1}>
+          <Text fontWeight={'semibold'} color={'gray.700'}>Your personal health data is 100% safe and secure.</Text>
+          <Row alignItems={'center'}>
+            <Text fontWeight={'semibold'} color={'gray.700'}>View</Text>
+            <Text fontWeight={'semibold'} mx={1} color={'red.500'}>Terms & Conditions</Text>
+            <Text fontWeight={'semibold'} color={'gray.700'}>and</Text>
+            <Text fontWeight={'semibold'} mx={1} color={'red.500'}>Privacy Policy</Text>
+          </Row>
+
+        </VStack>
       </ScrollView>
     </>
   );

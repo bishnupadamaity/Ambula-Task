@@ -10,7 +10,7 @@ const OtpScreen = () => {
   const dispatch = useDispatch();
   const handleLogin = ()=>{
     dispatch(updateUser({ phone: number, name: 'Ambula User0050' }));
-    resetAndNavigate('TabLayout');
+    resetAndNavigate('OtpVerification');
   }
   return (
     <>

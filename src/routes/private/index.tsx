@@ -7,10 +7,11 @@ const Stack = createNativeStackNavigator();
 const PrivateRoutes
     = ({initialRouteName = 'SplashScreen'}) => {
         return (
-            <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
+            <Stack.Navigator screenOptions={{ headerShown: false, statusBarColor: '#1e40af' }} initialRouteName={initialRouteName} >
                 <Stack.Screen name="TabLayout" component={TabLayout} />
                 <Stack.Screen name='SplashScreen' component={Public.SplashScreen} />
                 <Stack.Screen name='OtpScreen' component={Public.OtpScreen} />
+                <Stack.Screen name='OtpVerification' component={Public.OtpVerification} />
             </Stack.Navigator>
         )
     }

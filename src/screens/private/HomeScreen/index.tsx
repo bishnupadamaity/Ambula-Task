@@ -1,6 +1,6 @@
 import {StatusBar} from 'react-native';
 import React from 'react';
-import {Box, Pressable, Row, ScrollView, Text, VStack} from 'native-base';
+import {Box, Image, Pressable, Row, ScrollView, Text, VStack} from 'native-base';
 import Header from '~/components/Header';
 import AppIcon from '~/components/core/AppIcon';
 import AdCarousal from '~/components/AdCarousal';
@@ -50,26 +50,58 @@ const Home = () => {
     ),
     offer: '30'
   },
-    {
-      firstLabel: 'Health',
-      secondLabel: 'Insurance',
-      icon: (
-        <AppIcon IoniconsName="document-text" size={22} color={'#60a5fa'} />
-      ),
-      offer: null,
-    },
-    {
-      firstLabel: 'Order',
-      secondLabel: 'Medicine',
-      icon: (
-        <AppIcon
-          MaterialCommunityIconsName="qrcode-scan"
-          size={20}
-          color={'#60a5fa'}
-        />
-      ),
-      offer: null,
-    },]
+  {
+    firstLabel: 'Health',
+    secondLabel: 'Insurance',
+    icon: (
+      <AppIcon IoniconsName="document-text" size={22} color={'#60a5fa'} />
+    ),
+    offer: null,
+  },
+  {
+    firstLabel: 'Order',
+    secondLabel: 'Medicine',
+    icon: (
+      <AppIcon
+        MaterialCommunityIconsName="qrcode-scan"
+        size={20}
+        color={'#60a5fa'}
+      />
+    ),
+    offer: null,
+    },];
+  const HealthMonitoring = [{
+    firstLabel: 'Monitor',
+    secondLabel: 'Blood Glucose',
+    icon: (
+      <AppIcon
+        FontAwesomeName="heart"
+        size={22}
+        color={'#60a5fa'}
+      />
+    ),
+    offer: '30'
+  },
+  {
+    firstLabel: 'Monitor',
+    secondLabel: 'Blood Pressure',
+    icon: (
+      <AppIcon FontAwesome5Name="dna" size={22} color={'#60a5fa'} />
+    ),
+    offer: null,
+  },
+  {
+    firstLabel: 'Check & Track',
+    secondLabel: 'BMI',
+    icon: (
+      <AppIcon
+        FontAwesome5Name="weight"
+        size={22}
+        color={'#60a5fa'}
+      />
+    ),
+    offer: null,
+  },]
   return (
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={'#1e40af'} />
@@ -179,18 +211,86 @@ const Home = () => {
             </VStack>
           </Box>
         </Box>
+        {/* Carousal  */}
+        <Box bg={'violet.50'} py={2} px={5}>
+          <AdCarousal adData={CarouselData} />
+        </Box>
+        {/* Health Monitoring  */}
+        <Box bg={'#fbfaff'} p={5}>
+          <Text fontWeight={'semibold'} color={'gray.700'} fontSize={'md'} >Health Monitoring</Text>
+          <Box mt={4}>
+            <VStack
+              rounded={'3xl'}
+              borderWidth={1}
+              borderColor={'blue.100'}
+              bg={'white'}
+              p={3}>
+              <Row alignItems={'center'} justifyContent={'space-around'} mt={3}>
+                {HealthMonitoring.map((item: any, index: number) => (
+                  <Pressable _pressed={{ opacity: 0.5 }} key={index} w={'30%'}>
+                    <VStack alignItems={'center'}>
+                      <Box
+                        w={'55%'}
+                        px={2.5}
+                        py={3.5}
+                        alignItems={'center'}
+                        justifyContent={'center'}
+                        // borderWidth={1.5}
+                        rounded={'xl'}
+                        borderColor={'violet.50'}
+                      >
+                        {item.icon}
+
+                      </Box>
+                      <VStack mt={3} space={0}>
+                        <Text
+                          textAlign={'center'}
+                          fontSize={'xs'}
+                          fontWeight={'normal'}
+                          color={'gray.600'}>
+                          {item.firstLabel}
+                        </Text>
+                        <Text
+                          mt={-0.5}
+                          textAlign={'center'}
+                          fontSize={'xs'}
+                          fontWeight={'normal'}
+                          color={'gray.600'}>
+                          {item.secondLabel}
+                        </Text>
+                      </VStack>
+                    </VStack>
+                  </Pressable>
+                ))}
+              </Row>
+            </VStack>
+          </Box>
+        </Box>
+        {/* Carousal  */}
         <Box bg={'violet.50'} py={2} px={5}>
           <AdCarousal adData={CarouselData} />
         </Box>
 
+        {/* Approved by */}
+        <VStack alignItems={'center'} bg={'#fbfaff'} mt={4} py={6}>
+          <Text my={3} fontSize={'xs'} color={'gray.400'}>APPROVED BY</Text>
+
+        <Row alignItems={'center'} space={4}>
+            <Image source={{ uri: 'https://abdm.gov.in:8081/uploads/ndhm_logo_65d00d9518.png'}} style={{width: 100, height: 40}} resizeMode='contain' alt='National Health Authority'/>
+            <Image source={{ uri: 'https://abdm.gov.in:8081/uploads/logo_1c71441e1d.png'}} style={{width: 40, height: 40}} alt='national health authority'/>
+        </Row>
+        </VStack>
+
+      
+
         {/* Quote Line  */}
-        <VStack bg={'#fbfaff'} alignItems={'center'} py={8} space={1}>
-          <Text fontWeight={'semibold'} color={'gray.700'}>Your personal health data is 100% safe and secure.</Text>
+        <VStack bg={'#fbfaff'} alignItems={'center'} py={8} space={0.5}>
+          <Text fontWeight={'medium'} color={'gray.500'}>Your personal health data is 100% safe and secure.</Text>
           <Row alignItems={'center'}>
-            <Text fontWeight={'semibold'} color={'gray.700'}>View</Text>
-            <Text fontWeight={'semibold'} mx={1} color={'red.500'}>Terms & Conditions</Text>
-            <Text fontWeight={'semibold'} color={'gray.700'}>and</Text>
-            <Text fontWeight={'semibold'} mx={1} color={'red.500'}>Privacy Policy</Text>
+            <Text fontWeight={'medium'} color={'gray.600'}>View</Text>
+            <Text fontWeight={'medium'} mx={1} color={'red.500'}>Terms & Conditions</Text>
+            <Text fontWeight={'medium'} color={'gray.600'}>and</Text>
+            <Text fontWeight={'medium'} mx={1} color={'red.500'}>Privacy Policy</Text>
           </Row>
 
         </VStack>

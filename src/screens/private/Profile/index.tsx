@@ -20,7 +20,7 @@ const Profile = () => {
     {key: 'Email', value: 'bishnupdm.1@gmail.com'},
     {key: 'Phone', value: '8847866050'},
   ];
-  const [modalVisible, setModalVisible] = React.useState(true);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleLogout = () => {
     setModalVisible(false);

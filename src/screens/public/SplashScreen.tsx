@@ -7,7 +7,7 @@ import { navigate, resetAndNavigate } from '~/utils/NavigationUtils'
 const SplashScreen = () => {
   useEffect(() => {
     const timeOutId = setTimeout(() => {
-      resetAndNavigate('TabLayout');
+      resetAndNavigate('OtpScreen');
     }, 1000);
     return () => clearTimeout(timeOutId);
   },[])

@@ -10,6 +10,7 @@ const PrivateRoutes
             <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={initialRouteName}>
                 <Stack.Screen name="TabLayout" component={TabLayout} />
                 <Stack.Screen name='SplashScreen' component={Public.SplashScreen} />
+                <Stack.Screen name='OtpScreen' component={Public.OtpScreen} />
             </Stack.Navigator>
         )
     }

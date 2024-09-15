@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { Box, Input, Pressable, Row, StatusBar, Text, VStack } from 'native-base'
+import { Box, Image, Input, Pressable, Row, StatusBar, Text, VStack } from 'native-base'
 import { useDispatch } from 'react-redux';
 import { updateUser } from '~/store/slices/userSlice';
 import { resetAndNavigate } from '~/utils/NavigationUtils';
+import { IMAGES } from '~/assets';
 
 const OtpScreen = () => {
   const [number, setNumber] = useState('');
@@ -15,7 +16,9 @@ const OtpScreen = () => {
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={'#1e40af'} />
       <Box flex={1} bg={'white'}>
-        <Box flex={1}></Box>
+        <Box flex={1} alignItems={'center'} justifyContent={'center'}>
+          <Image source={IMAGES.PAYMENT} style={{ width: '80%', height: '95%' }} resizeMode='contain' alt='payment' />
+        </Box>
         <Box  p={5}>
           {/* welcome text  */}
           <VStack alignItems={'center'} space={2.5 } my={8}>

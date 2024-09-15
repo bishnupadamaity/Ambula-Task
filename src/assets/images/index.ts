@@ -1,6 +1,7 @@
 export default {
     FULL_LOGO: require('./Logo-Ambula.png'),
     COIN: require('./coin.png'),
+    PAYMENT: require('./MPayments.png'),
 
     C1: require('./c1.jpg'),
     C2: require('./c2.jpg'),

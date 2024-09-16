@@ -16,8 +16,8 @@ const OtpScreen = () => {
     <>
       <StatusBar barStyle={'light-content'} backgroundColor={'#1e40af'} />
       <Box flex={1} bg={'white'}>
-        <Box flex={1} alignItems={'center'} justifyContent={'center'}>
-          <Image source={IMAGES.PAYMENT} style={{ width: '80%', height: '95%' }} resizeMode='contain' alt='payment' />
+        <Box flex={1} alignItems={'center'} justifyContent={'center'} mt={10}>
+          <Image source={{ uri:'https://miro.medium.com/v2/resize:fit:828/format:webp/1*1xzZ4p-8s1_mRYKjtIIL7A.png'}} style={{ width: '100%', height: '100%' }} resizeMode='contain' alt='payment' />
         </Box>
         <Box  p={5}>
           {/* welcome text  */}
